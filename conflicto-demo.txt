@@ -1,1 +1,1 @@
-﻿Estado del proyecto: versión inicial.
+﻿Estado del proyecto: versión consolidada mediante la integración de las ramas A y B.
