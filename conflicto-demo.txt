@@ -1,1 +1,1 @@
-﻿Estado del proyecto: versión actualizada desde la rama B.
+﻿Estado del proyecto: versión consolidada mediante la integración de las ramas A y B.
