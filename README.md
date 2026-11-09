@@ -1,16 +1,18 @@
-# React + Vite
+﻿# Geo-Garbage
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Geo-Garbage es una aplicación web para reportar y gestionar microbasureros georreferenciados.
 
-Currently, two official plugins are available:
+## Tecnologías
+- React
+- Vite
+- JavaScript
+- ESLint
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Objetivo
+Facilitar el registro y seguimiento de reportes relacionados con la acumulación de residuos.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Ejecución del proyecto
+1. Instalar dependencias: npm install
+2. Iniciar el entorno: npm run dev
+3. Validar el código: npm run lint
+4. Generar compilación: npm run build
