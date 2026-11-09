@@ -1,1 +1,1 @@
-﻿Estado del proyecto: versión inicial.
+﻿Estado del proyecto: versión actualizada desde la rama A.
