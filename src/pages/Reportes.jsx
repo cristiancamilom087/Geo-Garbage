@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function Reportes() {
   const reportesSimulados = [
     { id: 1, nombre: 'Esquina Parque Central', estado: 'Reportado', gravedad: 'Medio' },
