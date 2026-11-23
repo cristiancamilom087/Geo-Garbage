@@ -17,6 +17,12 @@ import {
 
 const AppContext = createContext(null);
 
+const contenedorVacio = () => ({
+  reportes: [],
+  zonas: [],
+  ciudadanos: []
+});
+
 export function AppProvider({ children }) {
   const [usuarioActivo, setUsuarioActivo] = useState(null);
 
@@ -45,9 +51,24 @@ export function AppProvider({ children }) {
     }
   ]);
 
-  const [reportes, setReportes] = useState(() => listarReportes());
-  const [zonas, setZonas] = useState(() => listarZonas());
-  const [ciudadanos, setCiudadanos] = useState(() => listarCiudadanos());
+  // Cada cuenta tiene su propio espacio de registros; las cuentas nuevas arrancan en cero
+  const [datosPorUsuario, setDatosPorUsuario] = useState(() => ({
+    "admin.geogarbage@ejemplo.co": {
+      reportes: listarReportes(),
+      zonas: listarZonas(),
+      ciudadanos: listarCiudadanos()
+    },
+    "cristian.ciudadano@ejemplo.co": {
+      reportes: [listarReportes()[0]],
+      zonas: [],
+      ciudadanos: []
+    }
+  }));
+
+  const claveUsuarioActual = usuarioActivo?.correo?.toLowerCase() || null;
+  const datosActuales = claveUsuarioActual
+    ? datosPorUsuario[claveUsuarioActual] || contenedorVacio()
+    : contenedorVacio();
 
   const iniciarSesion = (identificador, password) => {
     const limpio = identificador.trim().toLowerCase();
@@ -93,6 +114,12 @@ export function AppProvider({ children }) {
     };
 
     setUsuariosRegistrados((prev) => [...prev, nuevoUsuario]);
+    // Inicializa en cero los módulos para el nuevo usuario
+    setDatosPorUsuario((prev) => ({
+      ...prev,
+      [correoLimpio]: contenedorVacio()
+    }));
+
     return { ok: true };
   };
 
@@ -117,6 +144,10 @@ export function AppProvider({ children }) {
         direccion: ""
       };
       setUsuariosRegistrados((prev) => [...prev, usuarioSocial]);
+      setDatosPorUsuario((prev) => ({
+        ...prev,
+        [correoSocial]: contenedorVacio()
+      }));
     }
 
     setUsuarioActivo(usuarioSocial);
@@ -140,18 +171,89 @@ export function AppProvider({ children }) {
 
   const cerrarSesion = () => setUsuarioActivo(null);
 
-  const crearReporte = (nuevo) =>
-    setReportes((prev) => agregarReporte(prev, nuevo));
-  const borrarReporte = (id) =>
-    setReportes((prev) => eliminarReportePorId(prev, id));
+  const crearReporte = (nuevo) => {
+    if (!claveUsuarioActual) return;
+    setDatosPorUsuario((prev) => {
+      const actual = prev[claveUsuarioActual] || contenedorVacio();
+      return {
+        ...prev,
+        [claveUsuarioActual]: {
+          ...actual,
+          reportes: agregarReporte(actual.reportes, nuevo)
+        }
+      };
+    });
+  };
 
-  const crearZona = (nueva) => setZonas((prev) => agregarZona(prev, nueva));
-  const borrarZona = (id) => setZonas((prev) => eliminarZonaPorId(prev, id));
+  const borrarReporte = (id) => {
+    if (!claveUsuarioActual) return;
+    setDatosPorUsuario((prev) => {
+      const actual = prev[claveUsuarioActual] || contenedorVacio();
+      return {
+        ...prev,
+        [claveUsuarioActual]: {
+          ...actual,
+          reportes: eliminarReportePorId(actual.reportes, id)
+        }
+      };
+    });
+  };
 
-  const crearCiudadano = (nuevo) =>
-    setCiudadanos((prev) => agregarCiudadano(prev, nuevo));
-  const borrarCiudadano = (id) =>
-    setCiudadanos((prev) => eliminarCiudadanoPorId(prev, id));
+  const crearZona = (nueva) => {
+    if (!claveUsuarioActual) return;
+    setDatosPorUsuario((prev) => {
+      const actual = prev[claveUsuarioActual] || contenedorVacio();
+      return {
+        ...prev,
+        [claveUsuarioActual]: {
+          ...actual,
+          zonas: agregarZona(actual.zonas, nueva)
+        }
+      };
+    });
+  };
+
+  const borrarZona = (id) => {
+    if (!claveUsuarioActual) return;
+    setDatosPorUsuario((prev) => {
+      const actual = prev[claveUsuarioActual] || contenedorVacio();
+      return {
+        ...prev,
+        [claveUsuarioActual]: {
+          ...actual,
+          zonas: eliminarZonaPorId(actual.zonas, id)
+        }
+      };
+    });
+  };
+
+  const crearCiudadano = (nuevo) => {
+    if (!claveUsuarioActual) return;
+    setDatosPorUsuario((prev) => {
+      const actual = prev[claveUsuarioActual] || contenedorVacio();
+      return {
+        ...prev,
+        [claveUsuarioActual]: {
+          ...actual,
+          ciudadanos: agregarCiudadano(actual.ciudadanos, nuevo)
+        }
+      };
+    });
+  };
+
+  const borrarCiudadano = (id) => {
+    if (!claveUsuarioActual) return;
+    setDatosPorUsuario((prev) => {
+      const actual = prev[claveUsuarioActual] || contenedorVacio();
+      return {
+        ...prev,
+        [claveUsuarioActual]: {
+          ...actual,
+          ciudadanos: eliminarCiudadanoPorId(actual.ciudadanos, id)
+        }
+      };
+    });
+  };
 
   const value = {
     usuarioActivo,
@@ -160,13 +262,13 @@ export function AppProvider({ children }) {
     iniciarSesionSocial,
     actualizarPerfilUsuario,
     cerrarSesion,
-    reportes,
+    reportes: datosActuales.reportes,
     crearReporte,
     borrarReporte,
-    zonas,
+    zonas: datosActuales.zonas,
     crearZona,
     borrarZona,
-    ciudadanos,
+    ciudadanos: datosActuales.ciudadanos,
     crearCiudadano,
     borrarCiudadano
   };
