@@ -2,12 +2,9 @@
 
 - **Programa:** Tecnólogo en Análisis y Desarrollo de Software (ADSO)
 - **Ficha:** 3336056
-- **Evidencia:** GA7-220501096-AA4-EV01
-- **RAP:** 220501096-04
-- **Periodo de la evidencia:** 09/11 – 22/11/26
 - **Proyecto:** Geo-Garbage (*"Tu reporte. Nuestra respuesta."*)
 - **Versión del entregable:** 1.1 (`v1.1.0` — evolución desde versión base `v1.0.0`)
-- **Aprendiz:** Cristian Morales (Cristian Camilo Morales Gomez)
+- **Aprendiz:** Cristian Morales 
 - **Repositorio:** `https://github.com/cristiancamilom087/Geo-Garbage`
 
 ---
